@@ -3,8 +3,18 @@
 *@
 @{
 }
-@using Quanlybug.data;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
 @model Quanlybug.data.UserMember
+
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-secondary navbar-dark">
         <a href="index.html" class="navbar-brand mx-4 mb-3">
@@ -17,24 +27,25 @@
             </div>
             <div class="ms-3">
                 <h6 class="mb-0">@Model.NameUser</h6>
-                @if(Model.Permission=="1")
+                @if (Model.Permission == "1")
                 {
 
-                    <span>Dev lỏ </span>
-                }else
+                    <span>Dev lỏ  </span>
+                }
+                else
                 {
-                    <span>Tester bủ </span>
+                    <span>tester lỏ </span>
                 }
 
             </div>
         </div>
         <div class="navbar-nav w-100">
-            <a href="index.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Trang chủ</a>
-            <a href=@Url.Action("CreateProject","Home") class="nav-item nav-link"><i class="fa fa-th accordion-body"></i> Tạo dự án</a>
+            <a href="@Url.Action("Home","Home")" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Trang chủ</a>
+            <a href="@Url.Action("CreateProject","Home")" class="nav-item nav-link"><i class="fa fa-th accordion-body"></i> Tạo dự án</a>
             <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Lập party</a>
             <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Đã hoàn thành</a>
             <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Chưa hoàn thành</a>
-   
+
         </div>
     </nav>
 </div>
@@ -49,7 +60,7 @@
         <a href="#" class="sidebar-toggler flex-shrink-0">
             <i class="fa fa-bars"></i>
         </a>
-        <form class="d-none d-md-flex ms-4">
+        <form class="d-none d-md-flex ms-4 >
             <input class="form-control bg-dark border-0" type="search" placeholder="Search">
         </form>
         <div class="navbar-nav align-items-center ms-auto">
@@ -133,49 +144,17 @@
         <div class="row g-4">
             <div class="col-sm-12 col-xl-6">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <h6 class="mb-4">Dự án</h6>
-                 
-                    @if (ViewBag.project != null)
+                    <h6 class="mb-4">Đăng lỗi bug</h6>
+                    @if (Model.Permission == "1")
                     {
-                     
 
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Tên dự án</th>
-                                        <th scope="col">Chi tiết</th>
-                                        <th scope="col">Hình ảnh</th>
-                                        <th scope="col">Tên người đăng</th>
-                                        <th scope="col">Thêm </th>
-                                  
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                  @foreach(var a in ViewBag.project)
-                                  {
-
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>@a.NameProject</td>
-                                        <td>@a.ContextProject</td>
-                                        <td>@a.Picture</td>
-                                        <td>@a.NameUser</td>
-                                   
-                                    </tr>
-                                  }
-                                </tbody>
-                            </table>
-                              
-                          
-                        
+                        <span style="color:red ;font-size:larger">phiên bản này không dành cho dev lỏ </span>
                     }
                     else
                     {
-                        <p>No projects found.</p>
+                        @await Html.PartialAsync("Create_party",ViewData["Project"] as Quanlybug.Models.Project_1)
                     }
-                    
-
+               
                 </div>
             </div>
 
@@ -183,10 +162,8 @@
     </div>
     <!-- Navbar End -->
     <!-- Sale & Revenue Start -->
-
     <!-- Sale & Revenue End -->
     <!-- Sales Chart Start -->
     <!-- Widgets End -->
-   
     <!-- Footer End -->
 </div>

@@ -87,6 +87,10 @@ namespace Quanlybug.data
                     .HasMaxLength(100)
                     .HasColumnName("NAME_PROJECT");
 
+                entity.Property(e => e.Picture)
+                    .HasMaxLength(100)
+                    .HasColumnName("PICTURE");
+
                 entity.HasOne(d => d.IdUserNavigation)
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.IdUser)

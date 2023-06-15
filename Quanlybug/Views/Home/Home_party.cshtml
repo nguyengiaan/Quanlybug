@@ -1,0 +1,36 @@
+﻿@using Microsoft.Build.Evaluation;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<Quanlybug.data.Project>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên dự án</th>
+            <th scope="col">Chi tết </th>
+            <th scope="col">Người Đăng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var project in Model)
+            {
+               <th>
+                    <h4>@project.NameProject</h4>
+                    <p>@project.ContextProject</p>
+                    <img src="@project.Picture" alt="Project Picture">
+                    <p>@project.IdUserNavigation.NameUser</p>
+                </th>
+            }
+        }
+        else
+        {
+            <p>No projects found.</p>
+        }
+    </tbody>
+</table>
