@@ -81,15 +81,23 @@ namespace Quanlybug.data
                     .HasMaxLength(100)
                     .HasColumnName("CONTEXT_PROJECT");
 
+                entity.Property(e => e.Date)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE");
+
                 entity.Property(e => e.IdUser).HasColumnName("ID_USER");
 
                 entity.Property(e => e.NameProject)
                     .HasMaxLength(100)
                     .HasColumnName("NAME_PROJECT");
 
+                entity.Property(e => e.Peformer).HasColumnName("PEFORMER");
+
                 entity.Property(e => e.Picture)
                     .HasMaxLength(100)
                     .HasColumnName("PICTURE");
+
+                entity.Property(e => e.Status).HasColumnName("STATUS");
 
                 entity.HasOne(d => d.IdUserNavigation)
                     .WithMany(p => p.Projects)

@@ -142,13 +142,12 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
+                         
                                         <th scope="col">Tên dự án</th>
-                                        <th scope="col">Chi tiết</th>
-                                        <th scope="col">Hình ảnh</th>
                                         <th scope="col">Tên người đăng</th>
-                                        <th scope="col">Thêm </th>
-                                  
+                                        <th scope="col">Ngày</th>
+                                        <th scope="col">Người fix lỗi</th>
+                                        <th scope="col">Trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -156,12 +155,13 @@
                                   {
 
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>@a.NameProject</td>
-                                        <td>@a.ContextProject</td>
-                                        <td>@a.Picture</td>
+                                        <td>@a.NameProject</td>         
                                         <td>@a.NameUser</td>
-                                   
+                                        <td>@a.Date</td>
+                                        <td>@a.Peformer</td>
+                                        <td>@a.Status</td>
+                                        <td> <a href="#" class="button">Xem</a></td>
+                                        <td> <a href="#" class="button">Xóa</a></td>
                                     </tr>
                                   }
                                 </tbody>

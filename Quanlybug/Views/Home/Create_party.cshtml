@@ -26,5 +26,31 @@
                                 <input type="file" class="form-control" name="uploadhinh" id="uploadhinh">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Đăng dự án</button>
-                    </form>
+                     <div class="row mb-3">
+                  <label id="date" name="date" class="col-sm-2 col-form-label" accept="image/*">Ngày đăng</label>
+                  <div class="col-sm-10">
+                    <input type="datetime-local" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" class="form-control" asp-for="Date" id="Date">
+                 </div>
+                     </div>
+    <div class="row mb-3">
+        <label id="date" name="date" class="col-sm-2 col-form-label" accept="image/*">Người thực hiện</label>
+        <div class="col-sm-10">
+            <select asp-items="@ViewBag.select" class="form-select" aria-label="Default select example"
+                    asp-for="Performer"></select>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label id="date" name="date" class="col-sm-2 col-form-label" accept="image/*">Trạng thái</label>
+        <div class="col-sm-10">
+            <select asp-for="Status" class="form-select" aria-label="Default select example">
+                <option value="Chưa hoàn thành" selected>
+                    chưa hoàn thành 
+                </option>
+                <option value="Hoàn thành" selected>
+                    Hoàn thành
+                </option>
+            </select>
+        </div>
+    </div>
+ <button type="submit" class="btn btn-primary">Đăng dự án</button>
+ </form>

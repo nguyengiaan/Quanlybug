@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Win32;
 using NuGet.Protocol.Plugins;
 using Quanlybug.data;
 using Quanlybug.Models;
 using System.Diagnostics;
+using System.Globalization;
 using System.Net;
 
 namespace Quanlybug.Controllers
@@ -86,7 +88,14 @@ namespace Quanlybug.Controllers
         {
             var sql1 = HttpContext.Session.GetString("ID");
             var sql = ql.UserMembers.Where(x => x.IdUser==Convert.ToInt32( sql1)).ToList().FirstOrDefault();
-            ViewBag.project = ql.Projects.Select(x => new { x.NameProject, x.ContextProject, x.Picture ,x.IdUserNavigation.NameUser});
+            if(sql.Permission=="2")
+            {
+                ViewBag.project = ql.Projects.Select(x => new { x.NameProject, x.ContextProject, x.Picture, x.IdUserNavigation.NameUser, x.Date, x.Peformer, x.Status ,x.IdUser}).Where(x=>x.IdUser.Equals(sql.IdUser));
+            }
+            else
+            {
+                ViewBag.project = ql.Projects.Select(x => new { x.NameProject, x.ContextProject, x.Picture, x.IdUserNavigation.NameUser, x.Date, x.Peformer, x.Status, x.IdUser }).Where(x => x.Peformer.Equals(sql.NameUser));
+            }    
             return View(sql);
         }
         [HttpGet]
@@ -94,6 +103,12 @@ namespace Quanlybug.Controllers
         {
             var sql1 = HttpContext.Session.GetString("ID");
             var sql = ql.UserMembers.Where(x => x.IdUser == Convert.ToInt32(sql1)).ToList().FirstOrDefault();
+            var sql2 = ql.UserMembers.Select(x => new { x.NameUser,x.Permission }).Where(x=>x.Permission.Equals("1"));
+            ViewBag.select = new List<SelectListItem>();
+            foreach(var item in sql2)
+            {
+                ViewBag.select.Add(new SelectListItem { Text = item.NameUser, Value =item.NameUser});
+            }    
             return View(sql);
        
         }
@@ -121,6 +136,10 @@ namespace Quanlybug.Controllers
                     pro.ContextProject=project.ContextProject;
                     pro.Picture = uploadhinh.FileName;
                     pro.IdUser = sql1;
+                    pro.Peformer = project.Performer;
+                    pro.Status=project.Status;
+                    var date = Convert.ToString(project.Date);
+                    pro.Date = DateTime.ParseExact(date, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
                     ql.Projects.Add(pro);
                     ql.SaveChanges();
                     return RedirectToAction("Home");
