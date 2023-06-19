@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Win32;
 using NuGet.Protocol.Plugins;
 using Quanlybug.data;
@@ -87,16 +88,40 @@ namespace Quanlybug.Controllers
         public IActionResult Home() 
         {
             var sql1 = HttpContext.Session.GetString("ID");
-            var sql = ql.UserMembers.Where(x => x.IdUser==Convert.ToInt32( sql1)).ToList().FirstOrDefault();
-            if(sql.Permission=="2")
+
+            var sql = ql.UserMembers.Where(x => x.IdUser == Convert.ToInt32(sql1)).ToList().FirstOrDefault();
+         
+           if (sql.Permission == "2")
             {
-                ViewBag.project = ql.Projects.Select(x => new { x.NameProject, x.ContextProject, x.Picture, x.IdUserNavigation.NameUser, x.Date, x.Peformer, x.Status ,x.IdUser}).Where(x=>x.IdUser.Equals(sql.IdUser));
+                var project = ql.Projects.Select(x => new { x.NameProject, x.ContextProject, x.Picture, x.IdUserNavigation.NameUser, x.Date, x.Peformer, x.Status, x.IdUser, x.IdProject }).Where(x => x.IdUser.Equals(sql.IdUser) && x.Status.Equals("Chưa hoàn thành"));
+                if (project.Count() == 0)
+                {
+                    ViewBag.project1 = "không có dự án";
+                    return View(sql);
+                }
+                else
+                {
+                    ViewBag.project = project;
+                    return View(sql);
+                }
+       
             }
             else
             {
-                ViewBag.project = ql.Projects.Select(x => new { x.NameProject, x.ContextProject, x.Picture, x.IdUserNavigation.NameUser, x.Date, x.Peformer, x.Status, x.IdUser }).Where(x => x.Peformer.Equals(sql.NameUser));
-            }    
-            return View(sql);
+                var project = ql.Projects.Select(x => new { x.NameProject, x.ContextProject, x.Picture, x.IdUserNavigation.NameUser, x.Date, x.Peformer, x.Status, x.IdUser, x.IdProject }).Where(x => x.Peformer.Equals(sql.NameUser) && x.Status.Equals("Chưa hoàn thành"));
+                if (project.Count() == 0)
+                {
+                    ViewBag.project1 = "không có dự án";
+                    return View(sql);
+                }
+                else
+                {
+                    ViewBag.project = project;
+                    return View(sql);
+                }
+
+            }
+
         }
         [HttpGet]
         public IActionResult CreateProject()
@@ -152,7 +177,41 @@ namespace Quanlybug.Controllers
             return View(sql);
 
         }
-
+        public IActionResult delete(int id)
+        {
+            try
+            {
+                var sql = ql.Projects.Find(id);
+                if (sql!= null)
+                {
+                    ql.Projects.Remove(sql);
+                    ql.SaveChanges();
+                    return RedirectToAction("Home", "Home");
+                }
+            }
+            catch (Exception ex) 
+            {
+                ViewBag.error = "Lỗi khi xóa";
+            }
+            return RedirectToAction("Home", "Home");
+        } 
+        public IActionResult updatestatus(int id)
+        {
+            var sql=ql.Projects.Find(id);
+            try
+            {
+                if(sql!= null)
+                {
+                    sql.Status = "Đang chờ duyệt";
+                    ql.SaveChanges();
+                    return RedirectToAction("Home", "Home");    
+                }
+            }catch(Exception ex)
+            {
+                ViewBag.erro = "Lỗi cập nhật";
+            }
+            return RedirectToAction("Home", "Home");
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

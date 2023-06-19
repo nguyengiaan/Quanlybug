@@ -8,13 +8,8 @@
 *@
 @{
 }
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+@using Quanlybug.data;
 @model Quanlybug.data.UserMember
-
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-secondary navbar-dark">
         <a href="index.html" class="navbar-brand mx-4 mb-3">
@@ -30,18 +25,18 @@
                 @if (Model.Permission == "1")
                 {
 
-                    <span>Dev lỏ  </span>
+                    <span>Dev lỏ </span>
                 }
                 else
                 {
-                    <span>tester lỏ </span>
+                    <span>Tester bủ </span>
                 }
 
             </div>
         </div>
         <div class="navbar-nav w-100">
             <a href="@Url.Action("Home","Home")" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Trang chủ</a>
-            <a href="@Url.Action("CreateProject","Home")" class="nav-item nav-link"><i class="fa fa-th accordion-body"></i> Tạo dự án</a>
+            <a href=@Url.Action("CreateProject","Home") class="nav-item nav-link"><i class="fa fa-th accordion-body"></i> Tạo dự án</a>
             <a href="@Url.Action("submit","Detail_project")" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Đã hoàn thành</a>
             <a href="@Url.Action("pending","Detail_project")" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Đang chờ duyệt</a>
 
@@ -59,7 +54,7 @@
         <a href="#" class="sidebar-toggler flex-shrink-0">
             <i class="fa fa-bars"></i>
         </a>
-        <form class="d-none d-md-flex ms-4 >
+        <form class="d-none d-md-flex ms-4">
             <input class="form-control bg-dark border-0" type="search" placeholder="Search">
         </form>
         <div class="navbar-nav align-items-center ms-auto">
@@ -143,17 +138,55 @@
         <div class="row g-4">
             <div class="col-sm-12 col-xl-6">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <h6 class="mb-4">Đăng lỗi bug</h6>
-                    @if (Model.Permission == "1")
+                    <h6 class="mb-4">Dự án đã hoàn thành</h6>
+
+                    @if (ViewBag.project != null)
                     {
 
-                        <span style="color:red ;font-size:larger">phiên bản này không dành cho dev lỏ </span>
+
+                        <table class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col">Tên dự án</th>
+                                    <th scope="col">Tên người đăng</th>
+                                    <th scope="col">Ngày</th>
+                                    <th scope="col">Người fix lỗi</th>
+                                    <th scope="col">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @ViewBag.project1
+                                @foreach (var a in ViewBag.project)
+                                {
+
+                                    <tr>
+                                        <td>@a.NameProject</td>
+                                        <td>@a.NameUser</td>
+                                        <td>@a.Date</td>
+                                        <td>@a.Peformer</td>
+                                        <td>@a.Status</td>
+                                        @if (Model.Permission == "2")
+                                        {
+
+                                            <td> <a href="@Url.Action("delete","Home",new{id=a.IdProject})" class="button">Xóa</a></td>
+                                        }
+                                        <td> <a href="#" class="button">Xem</a></td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+
+
                     }
                     else
                     {
-                        @await Html.PartialAsync("Create_party",ViewBag.select as Quanlybug.Models.Project_1)
+                        <p>No projects found.</p>
                     }
-               
+
+
                 </div>
             </div>
 

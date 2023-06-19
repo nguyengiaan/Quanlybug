@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+.actions {
+  display: flex;
+  margin-top: 10px;
+}
+.actions button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color:transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.username{
+  border-bottom: 2px solid black;
+}
+.actions{
+  border-top:2px solid black ;
+}
+.score{
+  width:50px;
+  height: 50px;
+  align-items: center;
+}
+.container{
+  align-items: center;
+}
+  </style>
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <div class="post">
+     <div class="username"><label>username</label></div>
+      <div class="content">
+        <h2 class="title">How to fix this problem</h2>
+        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <div class="actions">
+          <div class="vote">
+            <button class="upvote-btn"><i class="far fa-thumbs-up"></i></button>
+            <span class="score">0</span>
+            <button class="downvote-btn"><i class="far fa-thumbs-down"></i></button>
+          </div>
+          <button class="comment-btn"><i class="far fa-comment"></i>Comment</button>
+          <button class="share-btn"><i class="fas fa-share"></i>Share</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  var scoreElement = document.querySelector('.score');
+var upvoteButton = document.querySelector('.upvote-btn');
+var downvoteButton = document.querySelector('.downvote-btn');
+
+var score = 0;
+
+upvoteButton.addEventListener('click', function() {
+  score++;
+  scoreElement.textContent = score;
+});
+
+downvoteButton.addEventListener('click', function() {
+  score--;
+  scoreElement.textContent = score;
+});
+
+</script>
+</html>
